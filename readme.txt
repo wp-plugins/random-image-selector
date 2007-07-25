@@ -1,7 +1,8 @@
 === Random Image Selector for Wordpress ===
 Contributors: kdmurray   [kdmurray.at.kdmurray.dot.net]
-Version: 1.0b
+Version: 1.0.2
 Requires at least: 1.5.1
+Stable Tag: 1.0.2
 
 === Description ===
 This plugin will generate an <IMG> tag for a random image selected from a specified folder.
