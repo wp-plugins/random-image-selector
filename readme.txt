@@ -16,5 +16,17 @@ This plugin will generate an <IMG> tag for a random image selected from a specif
    customize the header image for your wordpress installation.  The plugin will look in
    the folder and randomly select a header image to display.
 
+== Sample Code ==
+   <?php
+     if (function_exists('generateRandomImgTag'))
+     {
+         generateRandomImgTag();
+     }
+   ?>
+
+This code will ensure that the function exists (ie the plugin is active and working) and
+call it if it's working correctly.  If the function is missing, or the plugin has been 
+removed then the call will be ignored, and no errors will result.
+
 == Feedback ==
 kdmurray.at.kdmurray.dot.net
