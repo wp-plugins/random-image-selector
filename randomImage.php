@@ -2,7 +2,7 @@
 /*
   Plugin Name: Random Image Selector
   Plugin URI:  http://kdmurray.net/2007/07/25/wordpress-plugin-random-image-selector/
-  Version:     1.0.2
+  Version:     1.0.3
   Description: Selects a random image from a specified folder, and provides
                methods for using it.  Current supported methods generate an
                Image Tag, or a "background" entry for use in a stylesheet.
@@ -79,8 +79,15 @@ function ri_options_page() {
                 echo '<input type="text" name="randomimage_path" size="65" value="'.get_option('randomimage_path').'" /></li>';
                 echo '<li>Enter the corresponding URL path (full  path) of the folder in #1: (<b>e.g.</b> <i>http://mydomain.com/wp-content/backgrounds</i>)<br />';
                 echo '<input type="text" name="randomimage_url" size="65" value="'.get_option('randomimage_url').'" /></li>';
+                echo '<li>Once thats done, put the following code on one of your pages, or in your header: <br/>';   
+                echo '&lt;?php<br/>';
+                echo "&nbsp;&nbsp;&nbsp;if (function_exists('generateRandomImgTag'))<br/>";
+                echo '&nbsp;&nbsp;&nbsp;{<br/>';
+                echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generateRandomImgTag();<br/>';
+                echo '&nbsp;&nbsp;&nbsp;}<br/>';
+                echo '?&gt;<br/></li>';
                 echo '</ol>';
-                echo '<p><input type="submit" value="Save" /></p></form>';
+                echo '<p><input type="submit" value="Save Settings" /></p></form>';
                 echo '</div>';
         }
         else {
