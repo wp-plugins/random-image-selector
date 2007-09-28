@@ -1,10 +1,10 @@
 === Random Image Selector for Wordpress ===
 Contributors: kdmurray
-Version: 1.0.3
+Version: 1.0.4
 Tags: image, images, picture, pictures, random, banner, header, theme plugin
 Requires at least: 1.5
-Tested up to: 2.2.1
-Stable Tag: 1.0.3
+Tested up to: 2.3
+Stable Tag: 1.0.4
 
 == Description ==
 This plugin will generate an <IMG> tag for a random image selected from a specified folder.
