@@ -1,4 +1,4 @@
-=== Random Image Selector for Wordpress ===
+=== Random Image Selector ===
 Contributors: kdmurray
 Version: 1.0.4
 Tags: image, images, picture, pictures, random, banner, header, theme plugin
