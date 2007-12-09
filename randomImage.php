@@ -1,16 +1,16 @@
 <?php
-/*
+  /*
   Plugin Name: Random Image Selector
   Plugin URI:  http://kdmurray.net/2007/07/25/wordpress-plugin-random-image-selector/
-  Version:     1.0.4
+  Version:     1.2.0
   Description: Selects a random image from a specified folder, and provides
                methods for using it.  Current supported methods generate an
                Image Tag, or a "background" entry for use in a stylesheet.
   Author:      Keith Murray
   Author URI:  http://kdmurray.net/
-*/
+  */
 
-/*
+  /*
     Copyright 2007 Keith Murray  (email : kdmurray@kdmurray.net)
 
     This program is free software; you can redistribute it and/or modify
@@ -26,10 +26,11 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+  */
 
-//Check to see if user has sufficient privileges
-function ri_is_authorized() {
+  //Check to see if user has sufficient privileges
+function ri_is_authorized() 
+{
         global $user_level;
         if (function_exists("current_user_can")) {
                 return current_user_can('activate_plugins');
@@ -62,6 +63,21 @@ function ri_options_page() {
                         update_option('randomimage_path',$_POST['randomimage_path']);
                         $ol_flash = "Your settings have been saved.";
                 }
+                if (isset($_POST['randomimage_scaleopt'])) {
+                        update_option('randomimage_scaleopt',$_POST['randomimage_scaleopt']);
+                        $ol_flash = "Your settings have been saved.";
+                }
+                if (isset($_POST['randomimage_width'])) {
+                        update_option('randomimage_width',$_POST['randomimage_width']);
+                        $ol_flash = "Your settings have been saved.";
+                }
+                if (isset($_POST['randomimage_height'])) {
+                        update_option('randomimage_height',$_POST['randomimage_height']);
+                        $ol_flash = "Your settings have been saved.";
+                }
+                // initialize or capture variable
+                $ri_scaleopt_postval = !isset($_POST['randomimage_scaleopt'])? NULL : $_POST['randomimage_scaleopt'];
+
         }       else {
               $ol_flash = "You don't have sufficient privilges.";
         }
@@ -75,10 +91,41 @@ function ri_options_page() {
                 echo '<form action="" method="post">';
                 echo '<input type="hidden" name="redirect" value="true" />';
                 echo '<ol>';
-                echo '<li>Enter the path (full path) of the folder you would like to pull the images from: (<b>e.g.</b> <i>/home/myuser/mydomain.com/wp-content/backgrounds</i>)<br/>';
+                echo '<li>Enter the path of the folder you would like to pull the images from: (<b>e.g.</b> <i>/home/myuser/mydomain.com/wp-content/backgrounds</i>)<br/>';
+                echo ABSPATH;
                 echo '<input type="text" name="randomimage_path" size="65" value="'.get_option('randomimage_path').'" /></li>';
                 echo '<li>Enter the corresponding URL path (full  path) of the folder in #1: (<b>e.g.</b> <i>http://mydomain.com/wp-content/backgrounds</i>)<br />';
                 echo '<input type="text" name="randomimage_url" size="65" value="'.get_option('randomimage_url').'" /></li>';
+
+			$ri_scaleopt_postval = get_option('randomimage_scaleopt');
+
+		switch ($ri_scaleopt_postval)
+		{
+		  case 'orig':
+		    $ri_scaleopt_text = "Leave the image as-is";
+		    break;
+		  case 'high':
+		    $ri_scaleopt_text = "Scale to a specific HEIGHT";
+		    break;
+		  case 'wide':
+		    $ri_scaleopt_text = "Scale to a specific WIDTH";
+		    break;
+		  case 'spec':
+		    $ri_scaleopt_text = "Force a height/width";
+		    break;
+		  default:
+		    break;
+		}
+
+                echo '<li><select name="randomimage_scaleopt">';
+                echo '       <option value="'.$ri_scaleopt_postval.'" SELECTED>'.$ri_scaleopt_text.'</option>';
+                echo '       <option value="orig">Leave the image as-is</option>';
+                echo '       <option value="high">Scale to a specific HEIGHT</option>';
+                echo '       <option value="wide">Scale to a specific WIDTH</option>';
+                echo '       <option value="spec">Force a height/width</option>';
+		echo '    </select> <br/>';
+		echo 'Height: <input type="text" name="randomimage_height" size=20 value="'.get_option('randomimage_height').'" />&nbsp;x&nbsp;';
+		echo 'Width: <input type="text" name="randomimage_width" size=20 value="'.get_option('randomimage_width').'" /></li>';
                 echo '<li>Once thats done, put the following code on one of your pages, or in your header: <br/>';   
                 echo '&lt;?php<br/>';
                 echo "&nbsp;&nbsp;&nbsp;if (function_exists('generateRandomImgTag'))<br/>";
@@ -101,7 +148,7 @@ function ri_options_page() {
 
   function generateRandomImage()
   {
-    $physicalPath = get_option('randomimage_path');
+    $physicalPath = ABSPATH . get_option('randomimage_path');
     $vPath = get_option('randomimage_url');
     $image_types = array('jpg','png','gif'); // Array of valid image types
     $image_directory = opendir($physicalPath);
@@ -122,7 +169,7 @@ function ri_options_page() {
   function generateRandomBGStyle()
   {
     $filename = generateRandomImage();
-    echo 'background: url('.$filename.');';
+    echo 'background-image: url('.$filename.');';
   }
 
   function generateRandomImgTag()
@@ -130,6 +177,9 @@ function ri_options_page() {
 
     $physicalPath = get_option('randomimage_path');
     $vPath = get_option('randomimage_url');
+    $scaleOption = get_option('randomimage_scaleopt');
+    $scaleHeight = get_option('randomimage_height');
+    $scaleWidth = get_option('randomimage_width');
     $image_types = array('jpg','png','gif'); // Array of valid image types  
     $image_directory = opendir($physicalPath);
 
@@ -143,10 +193,36 @@ function ri_options_page() {
       }
     }
 
+
    $image_filename=$image_array[rand(1,count($image_array))-1];
    $filename=$vPath.'/'.$image_filename;
 
-    echo '<img src="'.$filename.'" title="'.substr($image_filename,0,-4).'" />';
+    $imageInfo = getimagesize($physicalPath.'/'.$image_filename);
+    $physHeight = $imageInfo[1];
+    $physWidth = $imageInfo[0];
+
+    switch($scaleOption)
+    {
+      case 'high':
+	$ratio = $physHeight / $scaleHeight;
+        echo ('<script>alert("pH='.$physHeight.', sH='.$scaleHeight.', r='.$ratio.'")</script>');
+        $physWidth = $physWidth / $ratio;
+        $physHeight = $scaleHeight;
+	break;
+      case 'wide':
+	$ratio = $physWidth / $scaleWidth;
+        $physHeight = $physHeight / $ratio;
+        $physWidth = $scaleWidth;
+	break;
+      case 'spec':
+	$physHeight = $scaleHeight;
+	$physWidth = $scaleWidth;
+	break;
+      default:
+	break;
+    }
+
+    echo '<img src="'.$filename.'" title="'.substr($image_filename,0,-4).'" height="'.$physHeight.'" width="'.$physWidth.'"/>';
   }
 
 ?>
