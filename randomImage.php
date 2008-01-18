@@ -2,7 +2,7 @@
   /*
   Plugin Name: Random Image Selector
   Plugin URI:  http://kdmurray.net/2007/12/09/random-image-selector-120-released/
-  Version:     1.2.0
+  Version:     1.2.1
   Description: Selects a random image from a specified folder, and provides
                methods for using it.  Current supported methods generate an
                Image Tag, or a "background" entry for use in a stylesheet.
