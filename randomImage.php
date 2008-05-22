@@ -2,7 +2,7 @@
   /*
   Plugin Name: Random Image Selector
   Plugin URI:  http://kdmurray.net/2007/12/09/random-image-selector-120-released/
-  Version:     1.2.3
+  Version:     1.2.4
   Description: Selects a random image from a specified folder, and provides
                methods for using it.  Current supported methods generate an
                Image Tag, or a "background" entry for use in a stylesheet.
@@ -87,7 +87,7 @@ function ri_options_page() {
                 echo '<div class="wrap">';
                 echo '<h2>Set up your Random Image Options</h2>';
                 echo '<p>This plugin gives you the ability to add a random image to any part of your wordpress installation, for example in the header of your theme or page.  ';
-                echo 'By pointing the plugin at a folder in your Wordpress directory, it will select at random one image from that folder and display it wherever you need. </p>';
+                echo 'By pointing the plugin at a folder in your WordPress directory, it will select at random one image from that folder and display it wherever you need. </p>';
                 echo '<form action="" method="post">';
                 echo '<input type="hidden" name="redirect" value="true" />';
                 echo '<ol>';
@@ -111,7 +111,7 @@ function ri_options_page() {
 		    $ri_scaleopt_text = "Scale to a specific WIDTH";
 		    break;
 		  case 'spec':
-		    $ri_scaleopt_text = "Force a height/width";
+		    $ri_scaleopt_text = "Constrain both height & width";
 		    break;
 		  default:
 		    break;
@@ -122,7 +122,7 @@ function ri_options_page() {
                 echo '       <option value="orig">Leave the image as-is</option>';
                 echo '       <option value="high">Scale to a specific HEIGHT</option>';
                 echo '       <option value="wide">Scale to a specific WIDTH</option>';
-                echo '       <option value="spec">Force a height/width</option>';
+                echo '       <option value="spec">Constrain both height & width</option>';
 		echo '    </select> <br/>';
 		echo 'Height: <input type="text" name="randomimage_height" size=20 value="'.get_option('randomimage_height').'" />&nbsp;x&nbsp;';
 		echo 'Width: <input type="text" name="randomimage_width" size=20 value="'.get_option('randomimage_width').'" /></li>';
