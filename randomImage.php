@@ -2,7 +2,7 @@
   /*
   Plugin Name: Random Image Selector
   Plugin URI:  http://kdmurray.net/2007/12/09/random-image-selector-120-released/
-  Version:     1.2.4
+  Version:     1.2.5
   Description: Selects a random image from a specified folder, and provides
                methods for using it.  Current supported methods generate an
                Image Tag, or a "background" entry for use in a stylesheet.
@@ -28,7 +28,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
   */
 
-  //Check to see if user has sufficient privileges
+//Check to see if user has sufficient privileges
 function ri_is_authorized() 
 {
         global $user_level;
@@ -221,7 +221,7 @@ function ri_options_page() {
 	break;
     }
 
-    echo '<img src="'.$filename.'" title="'.substr($image_filename,0,-4).'" height="'.$physHeight.'" width="'.$physWidth.'"/>';
+    echo '<img src="'.$filename.'" title="'.substr($image_filename,0,-4).'" alt="'.substr($image_filename,0,-4).'" height="'.$physHeight.'" width="'.$physWidth.'"/>';
   }
 
 ?>
