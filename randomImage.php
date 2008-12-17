@@ -1,7 +1,7 @@
 <?php
   /*
   Plugin Name: Random Image Selector
-  Plugin URI:  http://kdmurray.net/2007/12/09/random-image-selector-120-released/
+  Plugin URI:  http://kdmurray.net/2007/12/09/random-image-selector-150-released/
   Version:     1.5.0
   Description: Selects a random image from a specified folder, and provides
                methods for using it.  Current supported methods generate an
