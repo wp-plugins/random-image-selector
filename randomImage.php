@@ -2,7 +2,7 @@
   /*
   Plugin Name: Random Image Selector
   Plugin URI:  http://kdmurray.net/2007/12/09/random-image-selector-150-released/
-  Version:     1.5.2
+  Version:     1.5.3
   Description: Selects a random image from a specified folder, and provides
                methods for using it.  Current supported methods generate an
                Image Tag, or a "background" entry for use in a stylesheet.
@@ -143,9 +143,6 @@ function ri_options_page() {
 }
 
 
-
-
-
   function generateRandomImage()
   {
     $physicalPath = ABSPATH . get_option('randomimage_path');
@@ -194,8 +191,7 @@ function ri_options_page() {
 
   function generateRandomImgTag()
   {
-
-    $physicalPath = ABSPATH . get_option(randomimage_path);
+    $physicalPath = get_option('randomimage_path');
     $vPath = get_option('randomimage_url');
     $scaleOption = get_option('randomimage_scaleopt');
     $scaleHeight = get_option('randomimage_height');
